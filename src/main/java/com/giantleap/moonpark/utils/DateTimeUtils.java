@@ -19,4 +19,9 @@ public final class DateTimeUtils {
         }
         return parkingDateTimeFormatted;
     }
+
+    public static String formatDateTimeString(String dateTime){
+
+        return dateTime.replace("T", " ");
+    }
 }

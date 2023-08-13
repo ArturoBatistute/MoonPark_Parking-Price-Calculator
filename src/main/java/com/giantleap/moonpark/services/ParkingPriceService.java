@@ -1,7 +1,9 @@
 package com.giantleap.moonpark.services;
 
+import com.giantleap.moonpark.model.PriceDetailsRecord;
 import com.giantleap.moonpark.model.enums.ParkingZoneEnum;
 import com.giantleap.moonpark.services.strategies.M1ZonePriceStrategy;
+import com.giantleap.moonpark.services.strategies.M2ZonePriceStrategy;
 import com.giantleap.moonpark.utils.DateTimeUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +16,7 @@ public class ParkingPriceService {
     @Autowired
     private ParkingPriceContext parkingPriceContext;
 
-    public String calculatePrice(String parkingZone, String arrivalDateTimeString, String departureDateTimeString){
+    public PriceDetailsRecord calculatePrice(String parkingZone, String arrivalDateTimeString, String departureDateTimeString){
 
         LocalDateTime arrivalDateTime = DateTimeUtils.formatParkingDateTime(arrivalDateTimeString);
         LocalDateTime departureDateTime = DateTimeUtils.formatParkingDateTime(departureDateTimeString);
@@ -28,6 +30,9 @@ public class ParkingPriceService {
 
         if (parkingZoneEnum.equals(ParkingZoneEnum.M1))
             parkingPriceContext.setStrategy(new M1ZonePriceStrategy());
+
+        if (parkingZoneEnum.equals(ParkingZoneEnum.M2))
+            parkingPriceContext.setStrategy(new M2ZonePriceStrategy());
 
         return parkingPriceContext.executeStrategy(arrivalDateTime, departureDateTime);
     }

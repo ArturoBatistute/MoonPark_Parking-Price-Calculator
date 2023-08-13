@@ -1,9 +1,10 @@
 package com.giantleap.moonpark.services;
 
+import com.giantleap.moonpark.model.PriceDetailsRecord;
 import java.time.LocalDateTime;
 
 public interface ParkingPriceStrategy {
 
-    String calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime);
+    PriceDetailsRecord calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime);
 
 }

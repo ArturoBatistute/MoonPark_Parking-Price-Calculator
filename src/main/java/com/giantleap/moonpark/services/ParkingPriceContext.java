@@ -1,5 +1,6 @@
 package com.giantleap.moonpark.services;
 
+import com.giantleap.moonpark.model.PriceDetailsRecord;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ public class ParkingPriceContext {
         this.parkingPriceStrategy = parkingPriceStrategy;
     }
 
-    public String executeStrategy(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
+    public PriceDetailsRecord executeStrategy(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
         return parkingPriceStrategy.calculatePrice(arrivalDateTime, departureDateTime);
     }
 }
