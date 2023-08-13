@@ -6,7 +6,6 @@ import com.giantleap.moonpark.model.PriceDetailsRecord;
 import com.giantleap.moonpark.services.ParkingPriceStrategy;
 import com.giantleap.moonpark.utils.DateTimeUtils;
 import com.giantleap.moonpark.utils.PriceUtils;
-import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -25,10 +24,10 @@ public class M2ZonePriceStrategy implements ParkingPriceStrategy {
         float parkingSeconds = ChronoUnit.SECONDS.between(arrivalDateTime, departureDateTime);
         float amountToPay = 0;
 
-        if(arrivalWeekDay.getValue() >= 6 && departureWeekDay.getValue() <= 7){
+        if(arrivalWeekDay.getValue() >= DayOfWeek.SATURDAY.getValue() && departureWeekDay.getValue() <= DayOfWeek.SUNDAY.getValue()){
             amountToPay = calculateAmount(NOK_PER_HOUR_WEEKENDS, parkingSeconds);
         }
-        if(arrivalWeekDay.getValue() >= 1 && departureWeekDay.getValue() <= 5){
+        if(arrivalWeekDay.getValue() >= DayOfWeek.MONDAY.getValue() && departureWeekDay.getValue() <= DayOfWeek.FRIDAY.getValue()){
             amountToPay = calculateAmount(NOK_PER_HOUR_WEEKDAYS, parkingSeconds);
         }
 //        else {

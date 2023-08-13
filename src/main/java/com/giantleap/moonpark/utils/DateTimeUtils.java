@@ -24,4 +24,10 @@ public final class DateTimeUtils {
 
         return dateTime.replace("T", " ");
     }
+
+    public static void isStartDateGreatherThenEndDate(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
+
+        if (arrivalDateTime.isAfter(departureDateTime))
+            throw new RuntimeException("Arrival date time must be before and departure date time.");
+    }
 }

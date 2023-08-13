@@ -6,7 +6,6 @@ import com.giantleap.moonpark.model.PriceDetailsRecord;
 import com.giantleap.moonpark.services.ParkingPriceStrategy;
 import com.giantleap.moonpark.utils.DateTimeUtils;
 import com.giantleap.moonpark.utils.PriceUtils;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 

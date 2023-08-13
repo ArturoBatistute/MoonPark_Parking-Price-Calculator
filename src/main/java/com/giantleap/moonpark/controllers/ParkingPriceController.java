@@ -2,6 +2,7 @@ package com.giantleap.moonpark.controllers;
 
 import com.giantleap.moonpark.model.PriceDetailsRecord;
 import com.giantleap.moonpark.services.ParkingPriceService;
+import com.giantleap.moonpark.utils.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,6 @@ public class ParkingPriceController {
     @Autowired
     private ParkingPriceService parkingPriceService;
 
-    //TODO: Must return JSON!
     @GetMapping
     ResponseEntity<PriceDetailsRecord> calculatePriceZone(@RequestParam String parkingZone,
                                                           @RequestParam String arrivalDateTime,
