@@ -1,12 +1,12 @@
 package com.giantleap.moonpark.utils;
 
-public class PriceUtils {
+public final class PriceUtils {
 
     private PriceUtils() {}
 
-    private static final String NORWAY_CURRENCY_NAME = "kr";
+    private static final String NORWAY_CURRENCY_NAME = " NOK";
 
-    public static String setNorwayCurrency(int amountToPay){
+    public static String setNorwayCurrency(long amountToPay){
        return String.valueOf(amountToPay).concat(NORWAY_CURRENCY_NAME);
     }
 }

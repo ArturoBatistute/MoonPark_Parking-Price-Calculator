@@ -12,7 +12,7 @@ public class ParkingPriceContext {
         this.parkingPriceStrategy = parkingPriceStrategy;
     }
 
-    public String executeStrategy(LocalDateTime localDateTime) {
-        return parkingPriceStrategy.calculatePrice(localDateTime);
+    public String executeStrategy(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
+        return parkingPriceStrategy.calculatePrice(arrivalDateTime, departureDateTime);
     }
 }

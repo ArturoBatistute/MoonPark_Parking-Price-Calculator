@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 
 public interface ParkingPriceStrategy {
 
-    String calculatePrice(LocalDateTime localDateTime);
+    String calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime);
 
 }
