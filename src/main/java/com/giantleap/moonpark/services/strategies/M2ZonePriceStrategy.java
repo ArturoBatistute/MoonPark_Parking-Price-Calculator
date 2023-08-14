@@ -30,9 +30,6 @@ public class M2ZonePriceStrategy implements ParkingPriceStrategy {
         if(arrivalWeekDay.getValue() >= DayOfWeek.MONDAY.getValue() && departureWeekDay.getValue() <= DayOfWeek.FRIDAY.getValue()){
             amountToPay = calculateAmount(NOK_PER_HOUR_WEEKDAYS, parkingSeconds);
         }
-//        else {
-//            amountToPay = calculateBasedMixedWeekdaysAndWeekends(arrivalDateTime, departureDateTime);
-//        }
 
         return new PriceDetailsRecord(DateTimeUtils.formatDateTimeString(arrivalDateTime.toString()),
             DateTimeUtils.formatDateTimeString(departureDateTime.toString()),
@@ -46,34 +43,4 @@ public class M2ZonePriceStrategy implements ParkingPriceStrategy {
 
         return Float.parseFloat(DECIMAL_FORMAT.format(amount));
     }
-
-//    private float calculateBasedMixedWeekdaysAndWeekends(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
-//
-//        DayOfWeek arrivalWeekDay = arrivalDateTime.getDayOfWeek();
-//        DayOfWeek departureWeekDay = departureDateTime.getDayOfWeek();
-//
-//
-//        LocalDateTime endOfSundayDateTime = LocalDateTime.of(2023,1,7,23,59,59);
-//
-//
-//        float weekendsParkingSeconds = ChronoUnit.SECONDS.between(endOfSundayDateTime, endOfSundayDateTime);
-//
-//        float weekdaysAmount = calculateAmount(NOK_PER_HOUR_WEEKDAYS, weekdaysParkingSeconds);
-//        float weekendsAmount = calculateAmount(NOK_PER_HOUR_WEEKENDS, weekendsParkingSeconds);
-//
-//        return Float.parseFloat(decimalFormat.format(weekdaysAmount + weekendsAmount));
-//    }
-
-//    private float check(LocalDateTime dateTime){
-//
-//        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
-//
-//        if(dayOfWeek.getValue() >= 1 && dayOfWeek.getValue() <= 5){
-//
-//            LocalDateTime endOfFridayDateTime = LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),23,59,59);
-//
-//            float weekdaysParkingSeconds = ChronoUnit.SECONDS.between(dateTime, endOfFridayDateTime);
-//        }else {
-//
-//        }
 }

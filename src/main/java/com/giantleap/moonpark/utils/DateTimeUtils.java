@@ -25,9 +25,14 @@ public final class DateTimeUtils {
         return dateTime.replace("T", " ");
     }
 
-    public static void isStartDateGreatherThenEndDate(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
+    public static void validateDateTime(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
 
         if (arrivalDateTime.isAfter(departureDateTime))
             throw new RuntimeException("Arrival date time must be before and departure date time.");
+    }
+
+    public static boolean isDateTimeBetween(LocalDateTime source, LocalDateTime startDateTime, LocalDateTime endDateTime){
+
+        return source.isAfter(startDateTime) && source.isBefore(endDateTime);
     }
 }

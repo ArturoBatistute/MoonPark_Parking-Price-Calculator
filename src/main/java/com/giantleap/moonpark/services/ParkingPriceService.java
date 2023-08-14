@@ -21,7 +21,7 @@ public class ParkingPriceService {
         LocalDateTime arrivalDateTime = DateTimeUtils.formatParkingDateTime(arrivalDateTimeString);
         LocalDateTime departureDateTime = DateTimeUtils.formatParkingDateTime(departureDateTimeString);
 
-        DateTimeUtils.isStartDateGreatherThenEndDate(arrivalDateTime, departureDateTime);
+        DateTimeUtils.validateDateTime(arrivalDateTime, departureDateTime);
         ParkingZoneEnum parkingZoneEnum = getParkingZone(parkingZone);
 
         if (parkingZoneEnum.equals(ParkingZoneEnum.M1))

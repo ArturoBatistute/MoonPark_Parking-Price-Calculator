@@ -1,5 +1,6 @@
 package com.giantleap.moonpark.services.strategies;
 
+import static com.giantleap.moonpark.utils.DateTimeUtils.isDateTimeBetween;
 import static com.giantleap.moonpark.utils.PriceUtils.DECIMAL_FORMAT;
 
 import com.giantleap.moonpark.model.PriceDetailsRecord;
@@ -9,32 +10,35 @@ import com.giantleap.moonpark.utils.PriceUtils;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 public class M3ZonePriceStrategy implements ParkingPriceStrategy {
 
     private static final float NOK_PER_MINUTES_MONDAY_TO_SATURDAY_8_TO_16 = 2;
     private static final float NOK_PER_MINUTES_MONDAY_TO_SATURDAY_OTHER_TIMES = 3;
-    private static final float STARTING_HOUR = 8;
-    private static final float ENDING_HOUR = 16;
+    private static final int STARTING_HOUR = 8;
+    private static final int ENDING_HOUR = 16;
     private static final float SECONDS_IN_HOUR = 3600;
+    private static final String ON_PERIOD = "OnPeriod";
+    private static final String AFTER_PERIOD = "AfterPeriod";
 
     @Override
     public PriceDetailsRecord calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
 
         DayOfWeek arrivalWeekDay = arrivalDateTime.getDayOfWeek();
         DayOfWeek departureWeekDay = departureDateTime.getDayOfWeek();
-        float parkingSeconds = ChronoUnit.SECONDS.between(arrivalDateTime, departureDateTime);
-        float amountToPay;
+        float amountToPay = 0;
 
         if(arrivalWeekDay.getValue() >= DayOfWeek.MONDAY.getValue() && departureWeekDay.getValue() <= DayOfWeek.SATURDAY.getValue()){
 
-            if(isHourBetween(arrivalDateTime, departureDateTime)){
+            Map<String, Float> parkingSeconds = getParkingSeconds(arrivalDateTime, departureDateTime);
 
-                parkingSeconds = applyFreeHourDiscount(parkingSeconds);
-                amountToPay = calculateAmount(NOK_PER_MINUTES_MONDAY_TO_SATURDAY_8_TO_16, parkingSeconds);
-            }else {
-                amountToPay = calculateAmount(NOK_PER_MINUTES_MONDAY_TO_SATURDAY_OTHER_TIMES, parkingSeconds);
-            }
+            if(parkingSeconds.containsKey(ON_PERIOD))
+                amountToPay = calculateAmount(NOK_PER_MINUTES_MONDAY_TO_SATURDAY_8_TO_16, parkingSeconds.get(ON_PERIOD));
+
+            if(parkingSeconds.containsKey(AFTER_PERIOD))
+                amountToPay += calculateAmount(NOK_PER_MINUTES_MONDAY_TO_SATURDAY_OTHER_TIMES, parkingSeconds.get(AFTER_PERIOD));
         }
         else {
             amountToPay = 0;
@@ -57,20 +61,6 @@ public class M3ZonePriceStrategy implements ParkingPriceStrategy {
         return Float.parseFloat(DECIMAL_FORMAT.format(amount));
     }
 
-    private boolean isHourBetween(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
-
-        int arrivalHour = arrivalDateTime.getHour();
-        int departureHour = departureDateTime.getHour();
-
-        if(arrivalHour >= STARTING_HOUR && arrivalHour <= ENDING_HOUR && departureHour >= STARTING_HOUR && departureHour <= ENDING_HOUR){
-            if(departureHour == ENDING_HOUR && departureDateTime.getMinute() != 0){
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
     private static float applyFreeHourDiscount(float parkingSeconds) {
 
         if(parkingSeconds <= SECONDS_IN_HOUR && parkingSeconds >= 0){
@@ -79,5 +69,42 @@ public class M3ZonePriceStrategy implements ParkingPriceStrategy {
             parkingSeconds -= SECONDS_IN_HOUR;
         }
         return parkingSeconds;
+    }
+
+    private Map<String, Float> getParkingSeconds(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime){
+
+        Map<String, Float> response = new HashMap<>();
+
+        LocalDateTime periodStart = arrivalDateTime.withHour(STARTING_HOUR).withMinute(0).withSecond(0);
+        LocalDateTime periodStop = arrivalDateTime.withHour(ENDING_HOUR).withMinute(0).withSecond(0);
+        float secondsBetween = ChronoUnit.SECONDS.between(arrivalDateTime, departureDateTime);
+
+        //nok 2
+        if(isDateTimeBetween(arrivalDateTime, periodStart, periodStop) && departureDateTime.isBefore(periodStop) || departureDateTime.isEqual(periodStop)){
+
+            float secondsWithDiscount = applyFreeHourDiscount(secondsBetween);
+            response.put(ON_PERIOD, secondsWithDiscount);
+        }
+
+        //nok 3
+        if(arrivalDateTime.isAfter(periodStop) || arrivalDateTime.isEqual(periodStop) && departureDateTime.isAfter(periodStop)){
+
+            response.put(AFTER_PERIOD, secondsBetween);
+        }
+
+        //nok 2 and 3
+        if(isDateTimeBetween(arrivalDateTime, periodStart, periodStop) && departureDateTime.isAfter(periodStop)){
+
+            float secondsBetweenOnPeriod = ChronoUnit.SECONDS.between(arrivalDateTime, periodStop);
+            float secondsBetweenAfterPeriod = ChronoUnit.SECONDS.between(periodStop, departureDateTime);
+
+            float secondsWithDiscount = applyFreeHourDiscount(secondsBetweenOnPeriod);
+
+            if(secondsWithDiscount > 0)
+                response.put(ON_PERIOD, secondsWithDiscount);
+            response.put(AFTER_PERIOD, secondsBetweenAfterPeriod);
+        }
+
+        return response;
     }
 }
