@@ -18,7 +18,8 @@ public class M1ZonePriceStrategy implements ParkingPriceStrategy {
     public PriceDetailsRecord calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
 
         float parkingSeconds = ChronoUnit.SECONDS.between(arrivalDateTime, departureDateTime);
-        float amountToPay = (NOK_PER_HOUR / MINUTES_IN_HOUR) * (parkingSeconds / 60);
+        float nokPerMinute = Float.parseFloat(DECIMAL_FORMAT.format((NOK_PER_HOUR / MINUTES_IN_HOUR)));
+        float amountToPay = nokPerMinute * (parkingSeconds / 60);
 
         return new PriceDetailsRecord(DateTimeUtils.formatDateTimeString(arrivalDateTime.toString()),
             DateTimeUtils.formatDateTimeString(departureDateTime.toString()),

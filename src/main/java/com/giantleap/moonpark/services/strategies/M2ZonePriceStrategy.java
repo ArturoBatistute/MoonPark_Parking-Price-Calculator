@@ -33,13 +33,14 @@ public class M2ZonePriceStrategy implements ParkingPriceStrategy {
 
         return new PriceDetailsRecord(DateTimeUtils.formatDateTimeString(arrivalDateTime.toString()),
             DateTimeUtils.formatDateTimeString(departureDateTime.toString()),
-            String.valueOf(amountToPay),
+            String.valueOf(Float.parseFloat(DECIMAL_FORMAT.format(amountToPay))),
             PriceUtils.NORWAY_CURRENCY_NAME);
     }
 
     private float calculateAmount(float nokPerHour, float parkingSeconds) {
 
-        float amount = (nokPerHour / MINUTES_IN_HOUR) * (parkingSeconds / 60);
+        float nokPerMinute = Float.parseFloat(DECIMAL_FORMAT.format((nokPerHour / MINUTES_IN_HOUR)));
+        float amount =  nokPerMinute * (parkingSeconds / 60);
 
         return Float.parseFloat(DECIMAL_FORMAT.format(amount));
     }
