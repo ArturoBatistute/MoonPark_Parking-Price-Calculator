@@ -1,5 +1,6 @@
 package com.giantleap.moonpark.services;
 
+import com.giantleap.moonpark.exceptions.MoonParkException;
 import com.giantleap.moonpark.model.PriceDetailsRecord;
 import com.giantleap.moonpark.model.enums.ParkingZoneEnum;
 import com.giantleap.moonpark.services.strategies.M1ZonePriceStrategy;
@@ -8,6 +9,7 @@ import com.giantleap.moonpark.services.strategies.M3ZonePriceStrategy;
 import com.giantleap.moonpark.utils.DateTimeUtils;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +45,7 @@ public class ParkingPriceService {
         try{
             parkingZoneEnum = ParkingZoneEnum.valueOf(parkingZone);
         }catch (Exception e){
-            throw new RuntimeException("Parking zone not found.");
+            throw new MoonParkException("Parking zone not found.", HttpStatus.NOT_FOUND);
         }
 
         return parkingZoneEnum;
