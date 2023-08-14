@@ -80,7 +80,7 @@ public class M3ZonePriceStrategy implements ParkingPriceStrategy {
         float secondsBetween = ChronoUnit.SECONDS.between(arrivalDateTime, departureDateTime);
 
         //nok 2
-        if(isDateTimeBetween(arrivalDateTime, periodStart, periodStop) && departureDateTime.isBefore(periodStop) || departureDateTime.isEqual(periodStop)){
+        if(isDateTimeBetween(arrivalDateTime, periodStart, periodStop) && departureDateTime.isBefore(periodStop) || departureDateTime.isEqual(periodStop) || arrivalDateTime.isEqual(periodStart)){
 
             float secondsWithDiscount = applyFreeHourDiscount(secondsBetween);
             response.put(ON_PERIOD, secondsWithDiscount);
