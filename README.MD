@@ -47,6 +47,6 @@ balancer algorithm (ex. Round Robin, Least Connections..).
 
 Some examples of load balancer: Google CLoud - Cloud Load Balancing, AWS - Elastic Load Balancing, NGINX.
 
-![Alt text](src/main/resources/images/Load Balancer.jpg?raw=true "Load Balancer")
+![Alt text](src/main/resources/images/LoadBalancer.jpg?raw=true "Load Balancer")
 
 
