@@ -2,6 +2,7 @@ package com.moonpark.parkingpricecalculator.controllers;
 
 import com.moonpark.parkingpricecalculator.model.PriceDetailsRecord;
 import com.moonpark.parkingpricecalculator.services.ParkingPriceService;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,10 @@ public class ParkingPriceController {
         @ApiResponse(responseCode = "404", description = "Not Found"),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")})
     ResponseEntity<PriceDetailsRecord> calculatePriceZone(@RequestParam String parkingZone,
-                                                          @RequestParam String arrivalDateTime,
-                                                          @RequestParam String departureDateTime) {
+                                                          @Parameter(description = "<font size=\"+0.5\">"
+                                                              + "<li>ex. 2023-08-13 14:00:00 </li>") @RequestParam String arrivalDateTime,
+                                                          @Parameter(description = "<font size=\"+0.5\">"
+                                                              + "<li>ex. 2023-08-13 14:00:00 </li>") @RequestParam String departureDateTime) {
 
         return ResponseEntity.ok(parkingPriceService.calculatePrice(parkingZone, arrivalDateTime, departureDateTime));
     }
