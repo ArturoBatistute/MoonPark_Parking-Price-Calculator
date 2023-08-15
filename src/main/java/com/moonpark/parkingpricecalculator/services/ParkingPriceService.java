@@ -18,6 +18,13 @@ public class ParkingPriceService {
     @Autowired
     private ParkingPriceContext parkingPriceContext;
 
+    /**
+     * Calculate parking price based on parking zone and arrival / departure date time.
+     * @param parkingZone the zone that will be applied the tax
+     * @param arrivalDateTimeString initial time date of charging
+     * @param departureDateTimeString end time date of charging
+     * @return the details of the amount to pay
+     */
     public PriceDetailsRecord calculatePrice(String parkingZone, String arrivalDateTimeString, String departureDateTimeString){
 
         LocalDateTime arrivalDateTime = DateTimeUtils.formatParkingDateTime(arrivalDateTimeString);

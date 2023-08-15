@@ -14,6 +14,12 @@ public class M1ZonePriceStrategy implements ParkingPriceStrategy {
     private static final float NOK_PER_HOUR = 60;
     private static final float MINUTES_IN_HOUR = 60;
 
+    /**
+     * Calculate parking price for the M1 zone based on arrival / departure date time.
+     * @param arrivalDateTime initial time date of charging
+     * @param departureDateTime end time date of charging
+     * @return the details of the amount to pay
+     */
     @Override
     public PriceDetailsRecord calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
 

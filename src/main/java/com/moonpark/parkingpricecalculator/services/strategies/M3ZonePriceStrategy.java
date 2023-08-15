@@ -23,6 +23,12 @@ public class M3ZonePriceStrategy implements ParkingPriceStrategy {
     private static final String ON_PERIOD = "OnPeriod";
     private static final String AFTER_PERIOD = "AfterPeriod";
 
+    /**
+     * Calculate parking price for the M3 zone based on arrival / departure date time.
+     * @param arrivalDateTime initial time date of charging
+     * @param departureDateTime end time date of charging
+     * @return the details of the amount to pay
+     */
     @Override
     public PriceDetailsRecord calculatePrice(LocalDateTime arrivalDateTime, LocalDateTime departureDateTime) {
 
