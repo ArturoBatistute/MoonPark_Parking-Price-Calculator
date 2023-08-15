@@ -49,4 +49,8 @@ Some examples of load balancer: Google CLoud - Cloud Load Balancing, AWS - Elast
 
 ![Alt text](src/main/resources/images/LoadBalancer.jpg?raw=true "Load Balancer")
 
+## API Documentation
+
+http://localhost:8080/swagger-ui/index.html#/
+
 
