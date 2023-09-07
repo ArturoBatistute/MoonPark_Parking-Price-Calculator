@@ -1,4 +1,4 @@
-# Programming task - Java developers
+# Parking Price Calculator
 
 MoonPark is a Norwegian parking company. MoonPark has commissioned you to
 develop a web service that calculates the price of a parking in their parking facility.
